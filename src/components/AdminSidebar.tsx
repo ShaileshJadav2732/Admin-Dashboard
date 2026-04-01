@@ -26,25 +26,50 @@ const AdminSidebar = () => {
 
 
   const resizeHandler = () => {
-    setPhoneActive(window.innerWidth <= 1100 ? true : false);
-  }
- 
+    setPhoneActive(window.innerWidth <= 1100);
+  };
+
+  const handleClose = () => {
+    setShowModel(false);
+  };
+
   useEffect(() => {
-    
-    window.addEventListener("resize", resizeHandler)
-  
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showModel) {
+        handleClose();
+      }
+    };
+
+    window.addEventListener("resize", resizeHandler);
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      window.removeEventListener("resize", resizeHandler)
-    }
-  }, [])
+      window.removeEventListener("resize", resizeHandler);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showModel]);
   
   return (
     <>
       {phoneActive && (
-        <button id="hamburger" onClick={() => setShowModel(true)}>
+        <button
+          id="hamburger"
+          onClick={() => setShowModel(true)}
+          aria-label="Open navigation menu"
+          aria-expanded={showModel}
+        >
           <HiMenuAlt4 />
         </button>
       )}
+
+      {phoneActive && showModel && (
+        <div
+          className="sidebar-backdrop"
+          onClick={handleClose}
+          aria-hidden="true"
+        />
+      )}
+
       <aside
         style={
           phoneActive
@@ -65,14 +90,13 @@ const AdminSidebar = () => {
         <SecondDiv location={location} />
         <ThirdDiv
           location={location}
-         
+
         />
         {phoneActive && (
           <button
             id="close-sidebar"
-            onClick={() => {
-              setShowModel(false);
-            }}
+            onClick={handleClose}
+            aria-label="Close navigation menu"
           >
             Close
           </button>
