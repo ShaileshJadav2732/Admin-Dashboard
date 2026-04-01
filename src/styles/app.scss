@@ -149,7 +149,7 @@ a {
 }
 
 #hamburger{
-  display:grid;
+  display: grid;
   place-items: center;
   @include square(3rem);
   border: none;
@@ -158,9 +158,43 @@ a {
   color: rgba(44, 104, 255);
   position: fixed;
   top: 1rem;
+  left: 1rem;
   background-color: white;
   border-radius: 50%;
   z-index: 9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  font-size: 1.5rem;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(44, 104, 255, 0.3);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 8;
+  animation: fadeIn 0.3s ease;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 #close-sidebar{
@@ -171,24 +205,63 @@ a {
   border: none;
   outline: none;
   cursor: pointer;
-    background-color: rgba(188,2,2);
-    color: white;
-    border-radius: 10px;
+  background-color: rgba(188, 2, 2);
+  color: white;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-weight: 600;
 
+  &:hover {
+    background-color: rgba(220, 2, 2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(188, 2, 2, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 .loader{
   width: 100%;
   height: 100vh;
   @include flex;
- >div{
-   @include square(10rem);
-  border-radius: 50%;
-  border-top: 1rem solid rgba(43,43,43);
-  border-left: 1rem solid rgba(43,43,43);
-  border-right: 1rem solid#fff;
-  border-bottom: 1rem solid #fff;
-  animation: loading-animation 0.5s linear infinite;
- }
+  background-color: rgba(255, 255, 255, 0.95);
+
+  .loader-spinner {
+    border-radius: 50%;
+    border-top: 0.25rem solid rgba(44, 104, 255, 0.3);
+    border-right: 0.25rem solid rgba(44, 104, 255, 0.3);
+    border-bottom: 0.25rem solid rgba(44, 104, 255, 0.3);
+    border-left: 0.25rem solid rgba(44, 104, 255);
+    animation: loading-animation 0.8s linear infinite;
+
+    &.small {
+      @include square(2rem);
+      border-width: 0.2rem;
+    }
+
+    &.medium {
+      @include square(5rem);
+      border-width: 0.3rem;
+    }
+
+    &.large {
+      @include square(10rem);
+      border-width: 0.5rem;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
 }
 
 @keyframes loading-animation{
